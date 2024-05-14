@@ -18,6 +18,6 @@ describe('user', () => {
         cy.get('input#\\:r1\\:').should('exist');
         cy.get('input#\\:r1\\:').type('d@cosa');
         cy.get('button[type="submit"]').click();
-        cy.get('label[for= ":r1:-helper-text"]').should('exist');
+        cy.get('p#\\:r1\\:-helper-text').should('exist');
     })
 })
