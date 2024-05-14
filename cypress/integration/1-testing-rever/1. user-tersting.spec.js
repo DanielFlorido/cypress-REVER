@@ -2,7 +2,8 @@
 
 describe('user', () => {
     beforeEach(() => {
-        cy.visit('/')
+        cy.visit('/');
+        cy.fixture('data').as('iban');
     })
 
     it('Product Search by Order Number', () => {
@@ -29,6 +30,34 @@ describe('user', () => {
 
     it('Management of Physical Returns and Size Exchanges', ()=> {
         cy.visit('/');
-        cy.login('cosas','cosas');
+        cy.login('123456','d@cosa.com');
+        cy.get('.flex.flex-col.gap-4.border-solid.border-grey-3')  
+            .should('exist') 
+            .children('.sc-dtInlm.hjZkTt') 
+            .first()
+            .click();
+        cy.get('.overflow-y-scroll')  
+            .contains('p', 'Too small')     
+            .click();  
+        cy.get('.react-responsive-modal-container.react-responsive-modal-containerCenter')
+        .should('exist').scrollTo('bottom');
+        cy.get('.mb-8.mt-4.flex.w-full.flex-col.content-center.items-center')  
+            .find('#reason-continue-button') 
+            .click();  
+        cy.get('button#item-selection-continue-button')
+            .click();
+        cy.scrollTo('bottom');
+        cy.get('button#returnAddressContinue')
+            .click();
+        cy.scrollTo('bottom');
+        cy.get('button#refundMethodContinue')
+            .click();
+        cy.get('button#returnMethodContinue')
+            .click();
+        cy.get('@iban').then(iban => {
+            cy.get('input#iban').type(iban.iban);
+        })
+        cy.get('button#ibanComplete')
+            .click();
     })
 })
